@@ -1,0 +1,17 @@
+#lang planet neil/sicp
+(define (cbrt-iter guess x)
+  (define improved (improve guess x))
+  (if (good-enough? guess improved)
+      guess
+      (cbrt-iter improved x)))
+(define (improve guess x)
+  (/ (+ (/ x (square guess)) (* guess 2)) 3))
+(define (average x y)
+  (/ (+ x y) 2))
+(define (square x)
+  (* x x))
+(define (good-enough? guess improved)
+  (< (abs(- guess improved)) 0.001))
+(define (cbrt x)
+  (cbrt-iter 1.0 x))
+(cbrt 10)
