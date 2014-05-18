@@ -1,0 +1,26 @@
+#lang planet neil/sicp
+(define (iterative-improve enough? improve)
+  (lambda (guess)
+    (define (iter guess)
+      (if (enough? guess)
+          guess
+          (iter (improve guess))))
+    (iter guess)))
+
+(define (sqrt x)
+  (define (enough? guess)
+    (define (square x) (* x x))
+    (< (abs (- (square guess) x)) 0.001))
+  (define (improve guess)
+    (define (average a b) (/ (+ a b) 2))
+    (average guess (/ x guess)))
+  ((iterative-improve enough? improve) 1.0))
+(sqrt 4)
+
+(define tolerance 0.00001)
+(define (fixed-point f first-guess)
+  (define (enough? guess)
+    (< (abs (- guess (f guess)))
+       tolerance))
+  (f ((iterative-improve enough? f) first-guess)))
+(fixed-point cos 1.0)
